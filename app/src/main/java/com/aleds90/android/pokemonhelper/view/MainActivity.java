@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.aleds90.android.pokemonhelper.R;
@@ -43,7 +44,36 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             @Override
             public void onClick(View v) {
                 final Dialog dialog = new Dialog(context);
+                System.out.println(gps.getAltitude());
                 dialog.setContentView(R.layout.dialog_insert_gym);
+                
+                EditText et_Pokemon = (EditText) dialog.findViewById(R.id.et_Pokemon);
+                EditText et_CP = (EditText) dialog.findViewById(R.id.et_CP);
+                EditText et_Level = (EditText) dialog.findViewById(R.id.et_Level);
+                EditText et_Address = (EditText) dialog.findViewById(R.id.et_Address);
+                EditText et_Notes = (EditText) dialog.findViewById(R.id.et_Notes);
+
+
+                Button btn_OK = (Button) dialog.findViewById(R.id.btn_OK);
+                Button btn_Cancell = (Button) dialog.findViewById(R.id.btn_Cancell);
+
+                btn_OK.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PokemonDAO pokemonDAO = new PokemonDAO(getApplicationContext());
+                        GymDAO gymDAO = new GymDAO(getApplicationContext());
+
+                        Gym gym1 = new Gym();
+                        //// TODO: 14/07/2016  
+                    }
+                });
+
+                btn_Cancell.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
                 dialog.show();
             }
         });
@@ -58,18 +88,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
         pokemons.setAdapter(new PokemonAdapter( pokemonArrayList,getApplicationContext()));
 
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+
 
     }
 
