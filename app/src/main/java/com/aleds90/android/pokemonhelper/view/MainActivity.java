@@ -1,7 +1,11 @@
 package com.aleds90.android.pokemonhelper.view;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.aleds90.android.pokemonhelper.R;
@@ -15,19 +19,34 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    final Context context = this;
+    private Button btn_AddGym;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        fakeList();
+        btn_AddGym = (Button) findViewById(R.id.btn_AddGym);
+        btn_AddGym.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Dialog dialog = new Dialog(context);
+                dialog.setContentView(R.layout.dialog_insert_gym);
+                dialog.show();
+            }
+        });
+
+
 
         PokemonDAO pokemonDAO = new PokemonDAO(getApplicationContext());
         ArrayList<Pokemon> pokemonArrayList = pokemonDAO.getPokemons();
         System.out.println("ARRAY SIZE: "+ pokemonArrayList.size());
 
         ListView pokemons = (ListView)findViewById(R.id.pokemons);
-        pokemons.setAdapter(new PokemonAdapter( fakeList(),getApplicationContext()));
+        pokemons.setAdapter(new PokemonAdapter(pokemonArrayList, getApplicationContext()));
+
+
 
     }
 
@@ -41,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         gym1.setNotes("note1");
         gym1.setLatitude(1.0);
         gym1.setLongitude(1.0);
-        gymDAO.save(gym1);
+        gym1.setId((int) gymDAO.save(gym1));
 
         Gym gym2 = new Gym();
         gym2.setAddress("indirizzo2");
@@ -49,7 +68,8 @@ public class MainActivity extends AppCompatActivity {
         gym2.setNotes("note2");
         gym2.setLatitude(2.0);
         gym2.setLongitude(2.0);
-        gymDAO.save(gym2);
+        gym2.setId((int) gymDAO.save(gym2));
+
 
         Gym gym3 = new Gym();
         gym3.setAddress("indirizzo3");
@@ -57,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         gym3.setNotes("note3");
         gym3.setLatitude(3.0);
         gym3.setLongitude(3.0);
-        gymDAO.save(gym3);
+        gym3.setId((int) gymDAO.save(gym3));
 
         Pokemon pokemon1 = new Pokemon();
         pokemon1.setName("name1");
