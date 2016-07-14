@@ -7,8 +7,12 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
+import android.app.Dialog;
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.aleds90.android.pokemonhelper.R;
@@ -26,18 +30,32 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     protected LocationManager locationManager;
     GPS gps = new GPS();
 
+    final Context context = this;
+    private Button btn_AddGym;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        fakeList();
+        btn_AddGym = (Button) findViewById(R.id.btn_AddGym);
+        btn_AddGym.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Dialog dialog = new Dialog(context);
+                dialog.setContentView(R.layout.dialog_insert_gym);
+                dialog.show();
+            }
+        });
+
+
 
         PokemonDAO pokemonDAO = new PokemonDAO(getApplicationContext());
         ArrayList<Pokemon> pokemonArrayList = pokemonDAO.getPokemons();
 
 
         ListView pokemons = (ListView)findViewById(R.id.pokemons);
+
         pokemons.setAdapter(new PokemonAdapter( pokemonArrayList,getApplicationContext()));
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -76,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         gym2.setLongitude(2.0);
         gym2.setId((int)gymDAO.save(gym2));
 
+
         Gym gym3 = new Gym();
 
         gym3.setAddress("indirizzo3");
@@ -83,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         gym3.setNotes("note3");
         gym3.setLatitude(3.0);
         gym3.setLongitude(3.0);
-        gym3.setId((int)gymDAO.save(gym3));
+        gym3.setId((int) gymDAO.save(gym3));
 
         Pokemon pokemon1 = new Pokemon();
         pokemon1.setId(1);
