@@ -12,8 +12,10 @@ import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.aleds90.android.pokemonhelper.R;
@@ -32,26 +34,33 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     GPS gps = new GPS();
 
     final Context context = this;
-    private Button btn_AddGym;
+    private ImageButton btn_AddGym;
+    private ListView pokemons;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btn_AddGym = (Button) findViewById(R.id.btn_AddGym);
+
+        PokemonDAO pokemonDAO = new PokemonDAO(getApplicationContext());
+        ArrayList<Pokemon> pokemonArrayList = pokemonDAO.getPokemons();
+        pokemons = (ListView)findViewById(R.id.pokemons);
+        pokemons.setAdapter(new PokemonAdapter( pokemonArrayList,getApplicationContext()));
+
+        btn_AddGym = (ImageButton) findViewById(R.id.btn_AddGym);
         btn_AddGym.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final Dialog dialog = new Dialog(context);
-                System.out.println(gps.getAltitude());
                 dialog.setContentView(R.layout.dialog_insert_gym);
                 
-                EditText et_Pokemon = (EditText) dialog.findViewById(R.id.et_Pokemon);
-                EditText et_CP = (EditText) dialog.findViewById(R.id.et_CP);
-                EditText et_Level = (EditText) dialog.findViewById(R.id.et_Level);
-                EditText et_Address = (EditText) dialog.findViewById(R.id.et_Address);
-                EditText et_Notes = (EditText) dialog.findViewById(R.id.et_Notes);
+                final EditText et_Pokemon = (EditText) dialog.findViewById(R.id.et_Pokemon);
+                final EditText et_CP = (EditText) dialog.findViewById(R.id.et_CP);
+                final EditText et_Level = (EditText) dialog.findViewById(R.id.et_Level);
+                final EditText et_Address = (EditText) dialog.findViewById(R.id.et_Address);
+                final EditText et_Notes = (EditText) dialog.findViewById(R.id.et_Notes);
 
 
                 Button btn_OK = (Button) dialog.findViewById(R.id.btn_OK);
@@ -64,7 +73,23 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                         GymDAO gymDAO = new GymDAO(getApplicationContext());
 
                         Gym gym1 = new Gym();
-                        //// TODO: 14/07/2016  
+                        gym1.setAddress(et_Address.getText().toString());
+                        gym1.setNotes(et_Notes.getText().toString());
+                        gym1.setLongitude(gps.getAltitude());
+                        gym1.setLatitude(gps.getLatitude());
+                        gym1.setLevel(Integer.valueOf(et_Level.getText().toString()));
+                        gym1.setId((int)gymDAO.save(gym1));
+                        gymDAO.save(gym1);
+
+                        Pokemon pokemon = new Pokemon();
+                        pokemon.setName(et_Pokemon.getText().toString());
+                        pokemon.setCp(Integer.valueOf(et_CP.getText().toString()));
+                        pokemon.setGym(gym1);
+                        pokemonDAO.save(pokemon);
+
+                        pokemons.setAdapter(new PokemonAdapter(pokemonDAO.getPokemons(),getApplicationContext()));
+                        dialog.dismiss();
+
                     }
                 });
 
@@ -80,13 +105,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
 
 
-        PokemonDAO pokemonDAO = new PokemonDAO(getApplicationContext());
-        ArrayList<Pokemon> pokemonArrayList = pokemonDAO.getPokemons();
-
-
-        ListView pokemons = (ListView)findViewById(R.id.pokemons);
-
-        pokemons.setAdapter(new PokemonAdapter( pokemonArrayList,getApplicationContext()));
 
 
 
