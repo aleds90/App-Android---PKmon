@@ -3,6 +3,7 @@ package com.aleds90.android.pokemonhelper.view;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -13,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -56,12 +58,16 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 final Dialog dialog = new Dialog(context);
                 dialog.setContentView(R.layout.dialog_insert_gym);
                 
-                final EditText et_Pokemon = (EditText) dialog.findViewById(R.id.et_Pokemon);
+                final AutoCompleteTextView et_Pokemon = (AutoCompleteTextView) dialog.findViewById(R.id.et_Pokemon);
+                String[] pokemonList = getResources().getStringArray(R.array.pokemons);
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.select_dialog_item, pokemonList);
+                et_Pokemon.setThreshold(1);
+                et_Pokemon.setAdapter(adapter);
+
                 final EditText et_CP = (EditText) dialog.findViewById(R.id.et_CP);
                 final EditText et_Level = (EditText) dialog.findViewById(R.id.et_Level);
                 final EditText et_Address = (EditText) dialog.findViewById(R.id.et_Address);
                 final EditText et_Notes = (EditText) dialog.findViewById(R.id.et_Notes);
-
 
                 Button btn_OK = (Button) dialog.findViewById(R.id.btn_OK);
                 Button btn_Cancell = (Button) dialog.findViewById(R.id.btn_Cancell);

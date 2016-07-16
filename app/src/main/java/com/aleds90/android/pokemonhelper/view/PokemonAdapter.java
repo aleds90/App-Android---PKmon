@@ -6,9 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.aleds90.android.pokemonhelper.R;
 import com.aleds90.android.pokemonhelper.model.Pokemon;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.StringTokenizer;
@@ -42,14 +44,13 @@ public class PokemonAdapter extends ArrayAdapter<Pokemon>{
         String notes = pokemon.getGym().getNotes();
 
         TextView tv_name = (TextView)view.findViewById(R.id.text_name);
-        TextView tv_cp = (TextView)view.findViewById(R.id.text_cp);
         TextView tv_gym = (TextView)view.findViewById(R.id.text_gym_address);
-        TextView tv_location = (TextView)view.findViewById(R.id.text_gym_location);
+        ImageView image = (ImageView)view.findViewById(R.id.pokemon_image);
 
-        tv_name.setText("id: "+pokemon_id +", name: "+name);
-        tv_cp.setText("cp: "+cp );
-        tv_gym.setText("gym id: "+gym_id+"address: "+address+ ", level: "+level+", notes: "+notes);
-        tv_location.setText("longitude: "+longitude+", latitude: "+latitude);
+        Picasso.with(view.getContext()).load("https://img.pokemondb.net/artwork/"+name+".jpg").into(image);
+        tv_name.setText(name+"("+cp+")");
+        tv_gym.setText(address+"("+longitude+","+latitude+")");
+
 
         return view;
     }
