@@ -12,6 +12,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -46,6 +47,20 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         setContentView(R.layout.activity_main);
 
 
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
+                0, this);
+
         PokemonDAO pokemonDAO = new PokemonDAO(getApplicationContext());
         ArrayList<Pokemon> pokemonArrayList = pokemonDAO.getPokemons();
         pokemons = (ListView)findViewById(R.id.pokemons);
@@ -63,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.select_dialog_item, pokemonList);
                 et_Pokemon.setThreshold(1);
                 et_Pokemon.setAdapter(adapter);
+                et_Pokemon.setTextColor(Color.BLACK);
 
                 final EditText et_CP = (EditText) dialog.findViewById(R.id.et_CP);
                 final EditText et_Level = (EditText) dialog.findViewById(R.id.et_Level);
@@ -178,8 +194,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     @Override
     public void onLocationChanged(Location location) {
-        gps.setAltitude(location.getAltitude());
+        gps.setAltitude(location.getLongitude());
         gps.setLatitude(location.getLatitude());
+        Log.e("LAT", String.valueOf(location.getLatitude()));
     }
 
     @Override
