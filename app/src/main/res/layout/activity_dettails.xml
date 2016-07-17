@@ -3,48 +3,75 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".view.DettailsActivity"
     android:orientation="vertical">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/red">
+
+        <ImageButton
+            android:paddingRight="10dp"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:id="@+id/btn_backGym"
+            android:background="@color/red"
+            android:layout_gravity="left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow_back_white_24dp"
+            />
+
+        <TextView
+            android:id="@+id/titleTB"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pokemons"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:textColor="@android:color/white" />
+
+
+    </android.support.v7.widget.Toolbar>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="Dettaglio"
         android:gravity="center"
-        android:text="Dettails"
-        android:textSize="40dp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textSize="30dp"
+        android:textColor="@color/red"/>
 
     <TextView
+
         android:id="@+id/tv_GymLvl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="GYM Level:"
-        android:textSize="30dp" />
+        android:text="Livello palestra:"
+        android:textSize="25dp"
+        android:textColor="@android:color/black"
+        android:layout_margin="5dp"/>
 
     <TextView
         android:id="@+id/tv_GymNotes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Notes:"
-        android:textSize="30dp" />
-
-    <TextView
-        android:id="@+id/tv_PokemonCP"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Pokemon CP:"
-        android:textSize="30dp" />
+        android:text="Note:"
+        android:textSize="25dp"
+        android:textColor="@android:color/black"
+        android:layout_margin="5dp"/>
 
     <TextView
         android:id="@+id/tv_Distance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Distance from GYM:"
-        android:textSize="30dp" />
+        android:text="Distanza dalla palestra:"
+        android:textSize="25dp"
+        android:textColor="@android:color/black"
+        android:layout_margin="5dp" />
 
 
     <TextView
@@ -52,14 +79,16 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Location"
-        android:textSize="40dp"
-        android:textStyle="bold" />
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:textColor="@color/red"/>
 
     <FrameLayout
         android:id="@+id/map_frame"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom">
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        >
 
     </FrameLayout>
 </LinearLayout>

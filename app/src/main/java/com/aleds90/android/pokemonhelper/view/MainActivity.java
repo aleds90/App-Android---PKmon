@@ -94,13 +94,17 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                         gym1.setNotes(et_Notes.getText().toString());
                         gym1.setLongitude(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude());
                         gym1.setLatitude(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude());
-                        gym1.setLevel(Integer.valueOf(et_Level.getText().toString()));
+                        if (et_Level.getText().toString().equals(null) || et_Level.getText().toString().equals("")) {
+                            gym1.setLevel(0);}
+                        else {gym1.setLevel((Integer.valueOf(et_Level.getText().toString())));}
                         gym1.setId((int) gymDAO.save(gym1));
                         gymDAO.save(gym1);
 
                         Pokemon pokemon = new Pokemon();
                         pokemon.setName(et_Pokemon.getText().toString());
-                        pokemon.setCp(Integer.valueOf(et_CP.getText().toString()));
+                        if (et_CP.getText().toString().equals(null) || et_CP.getText().toString().equals("")) {
+                            pokemon.setCp(0);}
+                        else {pokemon.setCp((Integer.valueOf(et_CP.getText().toString())));}
                         pokemon.setGym(gym1);
                         pokemonDAO.save(pokemon);
 
