@@ -1,73 +1,107 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="INSERISCI NUOVO"
+        android:textSize="20dp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/nome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nome del pokemon"/>
 
     <AutoCompleteTextView
-        android:layout_width="217dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
-        android:hint="POKEMON"
         android:id="@+id/et_Pokemon"
-        android:popupBackground="@android:color/black"/>
+        android:popupBackground="@android:color/black"
+        android:layout_below="@+id/nome"/>
 
-    <EditText
+    <TextView
+        android:id="@+id/cp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/et_CP"
-        android:layout_below="@+id/et_Pokemon"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:hint="Combat Points(CP)"
-        android:numeric="integer"/>
+        android:text="Valore Combat Points(CP)"/>
 
     <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/et_CP"
+        android:inputType="number"/>
+
+    <TextView
+        android:id="@+id/Indirizzo"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Indirizzo della palestra"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/et_Address"
+        android:hint="(Facoltativo)" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Livello della palestra"/>
+
+    <EditText
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/et_Level"
         android:layout_below="@+id/et_CP"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
-        android:hint="LEVEL GYM"
+        android:hint="(Facoltativo)"
         android:numeric="integer" />
-
-    <EditText
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/et_Address"
-        android:layout_below="@+id/et_Level"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:hint="ADDRESS" />
+        android:text="Appunti"/>
+
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
         android:ems="10"
         android:id="@+id/et_Notes"
-        android:layout_below="@+id/et_Address"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:hint="NOTES" />
+        android:hint="(Facoltativo)" />
 
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="OK"
-        android:id="@+id/btn_OK"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true" />
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Annulla"
+            android:id="@+id/btn_Cancell"
+            android:layout_alignTop="@+id/btn_OK"
+            android:layout_alignParentStart="true" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Salva"
+            android:id="@+id/btn_OK"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cancell"
-        android:id="@+id/btn_Cancell"
-        android:layout_alignTop="@+id/btn_OK"
-        android:layout_alignParentStart="true" />
 
-</RelativeLayout>
+    </LinearLayout>
+
+
+
+</LinearLayout>

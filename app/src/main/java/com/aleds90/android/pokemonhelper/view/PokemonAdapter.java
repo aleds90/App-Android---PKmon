@@ -2,6 +2,7 @@ package com.aleds90.android.pokemonhelper.view;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,15 @@ public class PokemonAdapter extends ArrayAdapter<Pokemon>{
         Picasso.with(view.getContext()).load("https://img.pokemondb.net/artwork/"+name+".jpg").into(image);
         tv_name.setText(name+"("+cp+")");
         tv_gym.setText(address+"("+longitude+","+latitude+")");
+
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context, DettailsActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(i);
+            }
+        });
 
 
         return view;
