@@ -10,6 +10,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -18,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.aleds90.android.pokemonhelper.R;
 import com.aleds90.android.pokemonhelper.model.Gym;
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     final Context context = this;
     private ImageButton btn_AddGym;
     private ListView pokemons;
+    private static final int PERMISSION_REQUEST_CODE = 1;
 
 
     @Override
@@ -75,43 +78,45 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 btn_OK.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                            // TODO: Consider calling
-                            //    ActivityCompat#requestPermissions
-                            // here to request the missing permissions, and then overriding
-                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                            //                                          int[] grantResults)
-                            // to handle the case where the user grants the permission. See the documentation
-                            // for ActivityCompat#requestPermissions for more details.
-                            return;
-                        }
-                        ;
-                        PokemonDAO pokemonDAO = new PokemonDAO(getApplicationContext());
-                        GymDAO gymDAO = new GymDAO(getApplicationContext());
+                        if (checkPermission()){
+                            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                                // TODO: Consider calling
+                                //    ActivityCompat#requestPermissions
+                                // here to request the missing permissions, and then overriding
+                                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                //                                          int[] grantResults)
+                                // to handle the case where the user grants the permission. See the documentation
+                                // for ActivityCompat#requestPermissions for more details.
+                                return;
+                            }
+                            ;
+                            PokemonDAO pokemonDAO = new PokemonDAO(getApplicationContext());
+                            GymDAO gymDAO = new GymDAO(getApplicationContext());
 
-                        Gym gym1 = new Gym();
-                        gym1.setAddress(et_Address.getText().toString());
-                        gym1.setNotes(et_Notes.getText().toString());
-                        gym1.setLongitude(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude());
-                        gym1.setLatitude(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude());
-                        if (et_Level.getText().toString().equals(null) || et_Level.getText().toString().equals("")) {
-                            gym1.setLevel(0);}
-                        else {gym1.setLevel((Integer.valueOf(et_Level.getText().toString())));}
-                        gym1.setId((int) gymDAO.save(gym1));
-                        gymDAO.save(gym1);
+                            Gym gym1 = new Gym();
+                            gym1.setAddress(et_Address.getText().toString());
+                            gym1.setNotes(et_Notes.getText().toString());
+                            gym1.setLongitude(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude());
+                            gym1.setLatitude(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude());
+                            if (et_Level.getText().toString().equals(null) || et_Level.getText().toString().equals("")) {
+                                gym1.setLevel(0);}
+                            else {gym1.setLevel((Integer.valueOf(et_Level.getText().toString())));}
+                            gym1.setId((int) gymDAO.save(gym1));
+                            gymDAO.save(gym1);
 
-                        Pokemon pokemon = new Pokemon();
-                        pokemon.setName(et_Pokemon.getText().toString());
-                        if (et_CP.getText().toString().equals(null) || et_CP.getText().toString().equals("")) {
-                            pokemon.setCp(0);}
-                        else {pokemon.setCp((Integer.valueOf(et_CP.getText().toString())));}
-                        pokemon.setGym(gym1);
-                        pokemonDAO.save(pokemon);
+                            Pokemon pokemon = new Pokemon();
+                            pokemon.setName(et_Pokemon.getText().toString());
+                            if (et_CP.getText().toString().equals(null) || et_CP.getText().toString().equals("")) {
+                                pokemon.setCp(0);}
+                            else {pokemon.setCp((Integer.valueOf(et_CP.getText().toString())));}
+                            pokemon.setGym(gym1);
+                            pokemonDAO.save(pokemon);
 
-                        pokemons.setAdapter(new PokemonAdapter(pokemonDAO.getPokemons(), getApplicationContext()));
-                        dialog.dismiss();
+                            pokemons.setAdapter(new PokemonAdapter(pokemonDAO.getPokemons(), getApplicationContext()));
+                            dialog.dismiss();
 
 
+                    }else {requestPermission();}
                     }
                 });
 
@@ -145,5 +150,45 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     @Override
     public void onProviderDisabled(String provider) {
 
+    }
+    private boolean checkPermission(){
+        int result = ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION);
+        if (result == PackageManager.PERMISSION_GRANTED){
+
+            return true;
+
+        } else {
+
+            return false;
+
+        }
+    }
+
+    private void requestPermission(){
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.ACCESS_FINE_LOCATION)){
+
+            Toast.makeText(context,"GPS permission allows us to access location data. Please allow in App Settings for additional functionality.",Toast.LENGTH_LONG).show();
+
+        } else {
+
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},PERMISSION_REQUEST_CODE);
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    System.out.println("Permission Granted, Now you can access location data.");
+
+                } else {
+
+                    System.out.println("Permission Denied, You cannot access location data.");
+
+                }
+                break;
+        }
     }
 }
