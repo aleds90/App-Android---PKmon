@@ -26,6 +26,7 @@ public class PokemonDAO extends SQLConnection{
 
         return database.insert(SQLHelper.POKEMON_TABLE, null, values);
     }
+
     public ArrayList<Pokemon> getPokemons() {
         ArrayList<Pokemon> pokemons = new ArrayList<Pokemon>();
         String query = "SELECT * FROM "
@@ -64,5 +65,10 @@ public class PokemonDAO extends SQLConnection{
             pokemons.add(pokemon);
         }
         return pokemons;
+    }
+
+    public int deletePokemon(Pokemon pokemon) {
+        return database.delete(SQLHelper.POKEMON_TABLE,
+                WHERE_ID_EQUALS, new String[]{pokemon.getId() + ""});
     }
 }

@@ -1,6 +1,8 @@
 package com.aleds90.android.pokemonhelper.model;
 
-public class Gym {
+import java.io.Serializable;
+
+public class Gym implements Serializable {
 
     private int id;
     private String address;

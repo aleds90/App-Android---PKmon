@@ -2,13 +2,41 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     >
 
-    <ImageView
-        android:id="@+id/pokemon_image"
-        android:layout_gravity="center"
-        android:layout_width="100dp"
-        android:layout_height="100dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/pokemon_edit"
+            android:layout_gravity="center"
+            android:background="@drawable/circle"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="25dp"
+            android:src="@drawable/ic_mode_edit_white_24dp" />
+
+        <ImageView
+            android:id="@+id/pokemon_image"
+            android:layout_gravity="center"
+            android:background="@drawable/circle"
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
+
+        <ImageView
+            android:id="@+id/pokemon_delete"
+            android:layout_gravity="center"
+            android:background="@drawable/circle"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="25dp"
+            android:src="@drawable/ic_delete_forever_white_24dp" />
+    </LinearLayout>
+
     <TextView
         android:layout_gravity="center"
         android:id="@+id/text_name"
@@ -17,15 +45,15 @@
         android:text="pokemon name"
         android:textSize="20dp"
         android:textStyle="bold"
-        android:textColor="@android:color/black"/>
+        android:textColor="@color/red" />
 
-    <TextView
-        android:layout_gravity="center"
-        android:id="@+id/text_gym_address"
-        android:paddingTop="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="gym address"
-        android:textColor="@android:color/black"/>
+    <!-- <TextView
+         android:layout_gravity="center"
+         android:id="@+id/text_gym_address"
+         android:paddingTop="10dp"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="gym address"
+         android:textColor="@android:color/black"/>-->
 
 </LinearLayout>
