@@ -23,7 +23,7 @@
         <ImageView
             android:id="@+id/pokemon_image"
             android:layout_gravity="center"
-            android:background="@drawable/circle"
+
             android:layout_width="100dp"
             android:layout_height="100dp" />
 
@@ -34,7 +34,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="25dp"
-            android:src="@drawable/ic_delete_forever_white_24dp" />
+            android:src="@drawable/ic_delete_white_24dp" />
     </LinearLayout>
 
     <TextView

@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.aleds90.android.pokemonhelper.R;
@@ -40,15 +42,21 @@ public class DettailsActivity extends AppCompatActivity implements OnMapReadyCal
         Intent i = getIntent();
         p = (Pokemon) i.getSerializableExtra("Pokemon");
 
-
+        ImageButton back = (ImageButton)findViewById(R.id.btn_backGym);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        TextView tv_title = (TextView)findViewById(R.id.titleTB);
+        tv_title.setText(p.getName());
         TextView tv_GymLvl = (TextView) findViewById(R.id.tv_GymLvl);
         TextView tv_GymNotes = (TextView) findViewById(R.id.tv_GymNotes);
-        TextView tv_PokemonCP = (TextView) findViewById(R.id.tv_PokemonCP);
         tv_Distance = (TextView) findViewById(R.id.tv_Distance);
 
-        tv_GymLvl.setText("GYM Level: " + p.getGym().getLevel());
-        tv_GymNotes.setText("Notes: " + p.getGym().getNotes());
-        tv_PokemonCP.setText("Pokemon CP: " + p.getCp());
+        tv_GymLvl.setText("Livello palestra: " + p.getGym().getLevel());
+        tv_GymNotes.setText("Note: " + p.getGym().getNotes());
 
 
         sMapFragment.getMapAsync(this);
@@ -94,7 +102,7 @@ public class DettailsActivity extends AppCompatActivity implements OnMapReadyCal
                 LocationManager.GPS_PROVIDER).getLatitude(), locationManager.getLastKnownLocation(
                 LocationManager.GPS_PROVIDER).getLongitude());
         double distance = CalculationByDistance(my_location, gym_location);
-        tv_Distance.setText("Distance from GYM: " + new DecimalFormat("##.##").format(distance) + "km");
+        tv_Distance.setText("Distanza dalla palestra: " + new DecimalFormat("##.##").format(distance) + "km");
 
 
     }
