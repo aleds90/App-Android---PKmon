@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PokemonHelper</string>
+    <string name="app_name">Bill Storage Pokemon System</string>
     <string-array name="pokemons">
         <item>bulbasaur</item>
         <item>ivysaur</item>

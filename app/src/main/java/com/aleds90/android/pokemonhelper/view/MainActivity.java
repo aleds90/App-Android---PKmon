@@ -18,6 +18,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -28,6 +29,9 @@ import com.aleds90.android.pokemonhelper.model.Pokemon;
 import com.aleds90.android.pokemonhelper.model.PokemonDAO;
 
 import java.util.ArrayList;
+
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
 
@@ -51,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         PokemonDAO pokemonDAO = new PokemonDAO(getApplicationContext());
         ArrayList<Pokemon> pokemonArrayList = pokemonDAO.getPokemons();
         pokemons = (ListView) findViewById(R.id.pokemons);
-        pokemons.setAdapter(new PokemonAdapter(pokemonArrayList, getApplicationContext()));
+        pokemons.setAdapter(new PokemonAdapter(pokemonArrayList, getApplicationContext(), MainActivity.this));
 
         btn_AddGym = (ImageButton) findViewById(R.id.btn_AddGym);
         btn_AddGym.setOnClickListener(new View.OnClickListener() {
@@ -59,7 +63,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             public void onClick(View v) {
                 final Dialog dialog = new Dialog(context);
                 dialog.setContentView(R.layout.dialog_insert_gym);
-                dialog.setTitle("Assign Pokémon to GYM");
+                dialog.setTitle("INSERISCI NUOVO");
+                dialog.setCanceledOnTouchOutside(false);
                 final AutoCompleteTextView et_Pokemon = (AutoCompleteTextView) dialog.findViewById(R.id.et_Pokemon);
                 String[] pokemonList = getResources().getStringArray(R.array.pokemons);
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.select_dialog_item, pokemonList);
@@ -69,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
                 final EditText et_CP = (EditText) dialog.findViewById(R.id.et_CP);
                 final EditText et_Level = (EditText) dialog.findViewById(R.id.et_Level);
-                final EditText et_Address = (EditText) dialog.findViewById(R.id.et_Address);
+                //final EditText et_Address = (EditText) dialog.findViewById(R.id.et_Address);
                 final EditText et_Notes = (EditText) dialog.findViewById(R.id.et_Notes);
 
                 Button btn_OK = (Button) dialog.findViewById(R.id.btn_OK);
@@ -94,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                             GymDAO gymDAO = new GymDAO(getApplicationContext());
 
                             Gym gym1 = new Gym();
-                            gym1.setAddress(et_Address.getText().toString());
+                            gym1.setAddress("");
                             gym1.setNotes(et_Notes.getText().toString());
                             gym1.setLongitude(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude());
                             gym1.setLatitude(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude());
@@ -112,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                             pokemon.setGym(gym1);
                             pokemonDAO.save(pokemon);
 
-                            pokemons.setAdapter(new PokemonAdapter(pokemonDAO.getPokemons(), getApplicationContext()));
+                            pokemons.setAdapter(new PokemonAdapter(pokemonDAO.getPokemons(), getApplicationContext(), MainActivity.this));
                             dialog.dismiss();
 
 
@@ -129,6 +134,22 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 dialog.show();
             }
         });
+
+
+
+        ShowcaseConfig config = new ShowcaseConfig();
+        config.setDelay(500); // half second between each showcase view
+
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this, "1");
+
+        sequence.setConfig(config);
+
+        sequence.addSequenceItem(btn_AddGym,
+                "Clicca per aggiungere un pokemon! Una volta aggiunto alla lista clicca sulla foto del pokemon e controlla la sua posizione!", "FINE");
+
+
+
+        sequence.start();
 
     }
 

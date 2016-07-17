@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -19,9 +21,14 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.DecimalFormat;
 
 public class DettailsActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -74,10 +81,12 @@ public class DettailsActivity extends AppCompatActivity implements OnMapReadyCal
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
 
+
         setup_Map();
+
     }
 
-    private void setup_Map() {
+    private void setup_Map(){
         //map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -94,7 +103,13 @@ public class DettailsActivity extends AppCompatActivity implements OnMapReadyCal
         double lat = p.getGym().getLatitude();
         double log = p.getGym().getLongitude();
         LatLng gym_location = new LatLng(lat, log);
-        map.addMarker(new MarkerOptions().position(gym_location));
+        /*URL url = new URL("https://img.pokemondb.net/artwork/"+p.getName()+".jpg");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setDoInput(true);
+        conn.connect();
+        InputStream is = conn.getInputStream();
+        Bitmap bmImg = BitmapFactory.decodeStream(is);*/
+        map.addMarker(new MarkerOptions().position(gym_location));//.icon(BitmapDescriptorFactory.fromBitmap(bmImg)));
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, log), 12));
 
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -131,4 +146,6 @@ public class DettailsActivity extends AppCompatActivity implements OnMapReadyCal
 
         return Radius * c;
     }
+
+
 }

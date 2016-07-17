@@ -71,4 +71,16 @@ public class PokemonDAO extends SQLConnection{
         return database.delete(SQLHelper.POKEMON_TABLE,
                 WHERE_ID_EQUALS, new String[]{pokemon.getId() + ""});
     }
+
+    public long update(Pokemon pokemon) {
+        ContentValues values = new ContentValues();
+        values.put("name", pokemon.getName());
+        values.put("cp", pokemon.getCp());
+        long result = database.update(SQLHelper.POKEMON_TABLE, values,
+                WHERE_ID_EQUALS,
+                new String[] { String.valueOf(pokemon.getId()) });
+        Log.d("Update Result:", "=" + result);
+        return result;
+
+    }
 }

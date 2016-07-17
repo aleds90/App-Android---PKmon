@@ -19,6 +19,13 @@ android {
     }
 }
 
+allprojects {
+    repositories {
+        jcenter()
+        maven { url "https://jitpack.io" }
+    }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
@@ -26,4 +33,5 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.android.support:support-v4:23.2.0'
     compile 'com.google.android.gms:play-services:8.4.0'
+    compile 'com.github.deano2390:MaterialShowcaseView:1.1.0@aar'
 }
